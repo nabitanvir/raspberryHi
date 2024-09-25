@@ -16,6 +16,6 @@ Many current smarthome systems require purchasing various products in order to b
 - [ ] Train to recognize wake word "Berry"
 
 ## Secondary Tasks:
-- [ ] Build an aesthetically pleasing case for the Raspberry Pi 5
+- [ ] Build a home for Berry
 
 Documentation on how to develop this on your own will be included in the repository.
