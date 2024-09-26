@@ -7,7 +7,13 @@ RUN apt-get update && apt-get install -y \
 	libportaudio2 \
 	libasound-dev \
 	portaudio19-dev \
+	vim \
 	&& apt-get clean
-RUN pip3 install numpy librosa sounddevice tflite-runtime
+RUN pip3 install \
+    numpy \
+    librosa \
+    sounddevice \
+    tflite-runtime \
+    phue
 WORKDIR /usr/src/app
 COPY . .
