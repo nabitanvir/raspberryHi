@@ -1,0 +1,3 @@
+commands i keep forgetting when i code
+1. docker run -v "$(pwd):/usr/src/app" -it berry bash
+2. docker build -t <my-image-name> .
