@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
 	libasound-dev \
 	portaudio19-dev \
 	vim \
+	iputils-ping \
 	&& apt-get clean
 RUN pip3 install \
     numpy \
