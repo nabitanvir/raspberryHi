@@ -15,6 +15,8 @@ RUN pip3 install \
     librosa \
     sounddevice \
     tflite-runtime \
-    phue
+    phue \
+    scipy \
+    numpy
 WORKDIR /usr/src/app
 COPY . .

@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras import layers, models
+from tensorflow.keras import layers, models, Input
 import numpy as np
 import librosa
 import os
@@ -7,6 +7,7 @@ import os
 DATASET_DIR = "dataset/"
 TRAIN_DIR = os.path.join(DATASET_DIR, "train/")
 VALIDATION_DIR = os.path.join(DATASET_DIR, "validation/")
+TEST_DIR = os.path.join(DATASET_DIR, "test/")
 
 def load_audio_data(directory, labels):
     X = []
@@ -25,7 +26,7 @@ def load_audio_data(directory, labels):
             else:
                 y_wake_word.append(0)
                 y_command.append(labels.index(label))
-        return np.array(X), np.array(y_wake_word), np.array(y_command)
+    return np.array(X), np.array(y_wake_word), np.array(y_command)
 
 # Due to lack of processing power, we will use transfer learning with a pretrained MobileNet model
 # MobileNet is ideal here because it uses depthwise separable convolution, which significantly reduces needed computations (Thanks Andrew Ng!)
@@ -61,6 +62,11 @@ def build_model(base_model, num_classes):
 
     return model
 
+def evaluate_model(model, test_data, test_labels_wake_word, test_labels_command):
+    loss, acc_wake_word, acc_command = model.evaluate(test_data, {'wake_word': test_labels_wake_word, 'command': test_labels_command})
+    print(f"Test Wake Word Accuracy: {acc_wake_word}")
+    print(f"Test Command Accuracy: {acc_command}")
+
 def main():
     # This is where you can add your own custom commands or wake word, just make sure to have a substantial amount of clean and labeled data.
     labels = ["berry", "lights_on", "lights_off"]
@@ -76,13 +82,13 @@ def main():
 
     base_model = get_pretrained_model()
     # now we add our own layers to the pretrained model
-    model = build_model(base_model, num_classes=len(labels))
+    model = build_model(base_model, num_classes=len(labels)-1)
 
     print("Training model!")
     # NOTE: The amount of epochs here will need to be changed depending on many aspects (dataset size, model complexity, learning rate, etc)
     # I recommend training a couple of times and checking your loss, make sure not to overfit though!
     model.fit(X_train, {'wake_word': y_train_wake_word, 'command': y_train_command},
-              validation_data=(X_validation, {'wake_word': y_val_wake_word, 'command': y_val_command}),
+              validation_data=(X_validation, {'wake_word': y_validation_wake_word, 'command': y_validation_command}),
               epochs=10, batch_size=32)
 
     model.save('berryAudioModel.h5')
