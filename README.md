@@ -9,12 +9,18 @@ Many current smarthome systems require purchasing various products in order to b
 - Ubuntu 24.10 OS
 
 IMPORTANT:
-There are two sets of code in this project for training:
+There are two sets of code in this project for training, both with tradeoffs:
 1. A training architecture that uses transfer learning on a pretrained model and introduces bias to your voice at later layers
+  - This is recommended if you do not have the computational resources and lack a large enough dataset to train a model from scratch.
+  - It will be easier to train but will give you less control over architecture.
 2. My own NN architecture that trains from scratch
-There are tradeoffs depending on which one you use. The first is recommended if you do not have the computational resources and lack a large enough dataset to train a model from scratch. It will be easier to train but will give you less control over architecture. The second is better if have the means to train a model from scratch and have a large enough dataset, this will give you more control and let you fine tune to your own specifications.
+  - This approach is better if you have the means to train a model from scratch and have a large enough dataset
+  - This will also give you more control and let you fine tune to your own specifications.
+
+More detail on how to manage these files will be included in the GUIDE.txt file.
 
 ## To Do:
+
 - [X] Write training code for wake word and user commands using transfer learning
 - [X] Write training code for wake word and user commands using custom NN architecture
 - [ ] Develop lightweight audio processing model using quantization with bias using custom datasets
@@ -28,4 +34,4 @@ There are tradeoffs depending on which one you use. The first is recommended if 
 ## Secondary Tasks:
 - [ ] Build a home for Berry!
 
-Documentation on how to develop/build this on your own will be included in the repository.
+Documentation on how to develop/build this on your own will be included in the GUIDE.txt file.
