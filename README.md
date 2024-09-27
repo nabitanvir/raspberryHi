@@ -12,9 +12,7 @@ IMPORTANT:
 There are two sets of code in this project for training:
 1. A training architecture that uses transfer learning on a pretrained model and introduces bias to your voice at later layers
 2. My own NN architecture that trains from scratch
-There are tradeoffs depending on which one you use:
-1. The first is recommended if you do not have the computational resources and lack a large enough dataset to train a model from scratch. It will be easier to train but will give you less control over architecture.
-2. The second is better if have the means to train a model from scratch and have a large enough dataset, this will give you more control and let you fine tune to your own specifications.
+There are tradeoffs depending on which one you use. The first is recommended if you do not have the computational resources and lack a large enough dataset to train a model from scratch. It will be easier to train but will give you less control over architecture. The second is better if have the means to train a model from scratch and have a large enough dataset, this will give you more control and let you fine tune to your own specifications.
 
 ## To Do:
 - [X] Write training code for wake word and user commands using transfer learning
