@@ -9,15 +9,9 @@ RUN apt-get update && apt-get install -y \
 	portaudio19-dev \
 	vim \
 	iputils-ping \
-	libsandfile1 \
+	libsndfile1 \
 	&& apt-get clean
-RUN pip3 install \
-    numpy \
-    librosa \
-    sounddevice \
-    tflite-runtime \
-    phue \
-    scipy \
-    numpy
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
 WORKDIR /usr/src/app
 COPY . .

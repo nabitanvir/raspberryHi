@@ -13,6 +13,7 @@ MODEL_PATH = 'models/wake_word_model.h5'
 
 SAMPLE_RATE = 16000
 DURATION = 1
+NUM_SAMPLES = SAMPLE_RATE * DURATION
 
 # Preprocess our audio samples to match the input of YAMnet, which is directly trained on raw audio waveforms
 def load_audio_files(file_path):
@@ -21,7 +22,7 @@ def load_audio_files(file_path):
         audio_binary = tf.io.read_file(path)
         waveform, _ = tf.audio.decode_wav(audio_binary, desired_channels=1)
         waveform = tf.squeeze(waveform, axis=-1)
-        if tf.shape(waveform)[0] < (SAMPLE_RATE * DURATION)
+        if tf.shape(waveform)[0] < (SAMPLE_RATE * DURATION):
             zero_padding = tf.zeros([SAMPLE_RATE * DURATION] - tf.shape(waveform), dtype=tf.float32)
             waveform = tf.concat([waveform, zero_padding], 0)
         else:
@@ -56,8 +57,9 @@ def create_wake_word_model():
     input_waveform = tf.keras.Input(shape=(NUM_SAMPLES,), dtype=tf.float32)
 
     # YAMnet import dims: [batch size, num samples], so we expand dims
-    embeddings = yamnet_model(tf.expand_dims(input_waveform, axis=0))['embedding']
-    embeddings = tf.squeeze(embeddings, axis=0)
+    embeddings = yamnet_model(tf.expand_dims(input_waveform, axis=0))
+    embeddings = embeddings['embedding']
+    embeddings = tf.reduce_mean(embeddings, axis=0)
 
     x = tf.keras.layers.Dense(128, activation='relu')(embeddings)
     x = tf.keras.layers.Dropout(0.3)(x)
@@ -69,19 +71,25 @@ def create_wake_word_model():
 
 def main():
     print("Loading wake word data")
+    X, y = load_wake_word_data(POSITIVE_DIR, NEGATIVE_DIR)
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(16).prefetch(tf.data.AUTOTUNE)
+    train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train))
+    train_dataset = train_dataset.shuffle(buffer_size=1024).batch(16).prefetch(tf.data.AUTOTUNE)
     val_dataset = tf.data.Dataset.from_tensor_slices((X_val, y_val)).batch(16).prefetch(tf.data.AUTOTUNE)
 
     model = create_wake_word_model()
     model.summary()
 
     print("Training wake_word_model.h5")
-    model.fit(train_dataset, validation_data=val_dataset, epochs=10)
+    callbacks = [
+        tf.keras.callbacks.ModelCheckpoint(MODEL_SAVE_PATH, save_best_only=True),
+        tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3),
+    ]
+    model.fit(train_dataset, validation_data=val_dataset, epochs=10, callbacks=callbacks, verbose=1)
 
     model.save(MODEL_SAVE_PATH)
-    printf("wake word model training complete!")
+    print("wake word model training complete!")
 
 if __name__ == "__main__":
     main()
