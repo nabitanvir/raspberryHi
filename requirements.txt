@@ -14,7 +14,5 @@ llvmlite==0.36.0
 soundfile==0.10.3.post1
 sounddevice==0.4.2
 
-tflite-runtime==2.5.0
-
 phue==1.1
 h5py==2.10.0
