@@ -2,3 +2,9 @@ numpy
 librosa
 tensorflow
 sounddevice
+tflite-runtime
+phue
+scipy
+numpy
+os
+time
