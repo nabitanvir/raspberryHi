@@ -3,6 +3,7 @@ tensorflow-estimator==2.5.0
 tensorflow-hub==0.12.0
 tensorboard==2.5.0
 tensorboard-plugin-wit==1.8.0
+protobuf==3.20.*
 
 numpy==1.19.5
 scipy==1.5.4
@@ -16,3 +17,5 @@ sounddevice==0.4.2
 
 phue==1.1
 h5py==2.10.0
+protobuf==3.20.*
+
