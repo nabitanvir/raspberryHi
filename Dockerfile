@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
 	portaudio19-dev \
 	vim \
 	iputils-ping \
+	libsandfile1 \
 	&& apt-get clean
 RUN pip3 install \
     numpy \
