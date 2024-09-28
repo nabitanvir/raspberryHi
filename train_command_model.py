@@ -8,6 +8,7 @@ COMMANDS = ['lights_on', 'lights_off', 'status', 'eee']
 DATA_DIR = 'datasets/commands'
 MODEL_PATH = 'models/command_model.h5'
 
+# We preprocess data into MFCCs of dimensions 32x32x1, which is the equivalent of a grayscale image
 def load_command_data(commands, data_dir):
     X = []
     y = []
@@ -25,6 +26,7 @@ def load_command_data(commands, data_dir):
     y = np.array(y)
     return X, y
 
+# Create the model, this specific NN architecture was used to make for a lightweight model that can easily run on a raspberry pi
 def create_command_model(input_shape, num_commands):
     model = models.sequential([
         layers.Conv2D(16, (3, 3), activation='relu', input_shape=input_shape),

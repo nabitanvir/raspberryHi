@@ -1,5 +1,6 @@
 import tensorflow as tf
 
+# This code converts the models into tflite models so it is less strenuous on the raspberry pi
 def convert_to_tflite(model_path, output_path):
     model = tf.keras.models.load_model(model_path)
     converter = tf.lite.TFLiteConverter.from_keras_model(model)

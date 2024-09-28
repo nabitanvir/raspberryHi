@@ -8,6 +8,8 @@ POSITIVE_DIR = 'datasets/wake_word/positive'
 NEGATIVE_DIR = 'datasets/wake_word/negative'
 MODEL_PATH = 'models/wake_word_model.h5'
 
+# This function preprocesses our audio data for training by converting all our training data into MFCCs of size 32x32x1, which is
+# the equivalent of a grayscale image (hence the 1 in the channels dimension)
 def load_wake_word_data(positive_dir, negative_dir):
     X = []
     y = []
@@ -44,6 +46,7 @@ def create_wake_word_model(input_shape):
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     return model
 
+# Main function that trains the model
 def main():
     print("Loading wake word data")
     X_train, y_train = load_wake_word_data(POSITIVE_DIR, NEGATIVE_DIR)
