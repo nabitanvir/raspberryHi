@@ -1,6 +1,0 @@
-commands i keep forgetting when i code
-1. docker run -v "$(pwd):/usr/src/app" -it berry bash
-2. docker build -t berry .
-3. docker stop $(docker ps -a)
-4. docker prune -a
-5. docker volume prune
