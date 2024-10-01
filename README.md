@@ -13,6 +13,7 @@ Many current smarthome systems require purchasing various products in order to b
 - [X] Write training code for wake word and user commands using custom NN architecture
 - [ ] Develop lightweight audio processing model using quantization with bias using custom datasets
 - [ ] Write training code for facial recognition using a One-Shot learning through a Siamese network
+- [ ] Modularize YAMnet embeddings for wake word transfer learning
 - [ ] Develop lightweight facial recognition model and train to recognize me specifically.
 - [ ] Chain models together to correctly recognize me and allow control of my smart appliances.
 - [X] Integrate control of my smart home lighting using Philips Hue REST API.
