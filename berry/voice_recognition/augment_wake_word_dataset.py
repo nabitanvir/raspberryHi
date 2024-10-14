@@ -1,12 +1,10 @@
 # After collecting a significant amount of wake word data, use this function to augment your files in order to introduce a more robust dataset.
+import config
+import utils
 
 import os, random, librosa, tqdm
 import numpy as np
 import soundfile as sf
-
-POSITIVE_DIR = '/usr/src/app/berry/berry_voice_recognition/datasets/wake_word/positive'
-NEGATIVE_DIR = '/usr/src/app/berry/berry_voice_recognition/datasets/wake_word/negative'
-SAMPLE_RATE = 16000
 
 def pitch_shift_aug(audio, sr, n_steps=0):
     shift = n_steps
@@ -28,10 +26,10 @@ def main():
     target = input('Augment positive or negative datasets? (p/n): ')
     tag = 'unset'
     if target == 'p':
-        target_directory = POSITIVE_DIR
+        target_directory = config.POSITIVE_DIRECTORY
         tag = 'positive'
     elif target == 'n':
-        target_directory = NEGATIVE_DIR
+        target_directory = config.NEGATIVE_DIRECTORY
         tag = 'negative'
     else:
         print('No directory specified, terminating')
@@ -57,7 +55,7 @@ def main():
     augmented_count = 0
     with tqdm(total=num_augmented_samples, desc='augmenting samples\n', unit='sample') as pbar:
         for i, file in enumerate(target_files):
-            audio, sr = librosa.load(file, sr=SAMPLE_RATE)
+            audio, sr = librosa.load(file, sr=config.SAMPLE_RATE)
             base_filename = os.path.splitext(os.path.basename(file))[0]
             for j in range(augmentations_per_file):
                 augmented_audio = audio.copy()
