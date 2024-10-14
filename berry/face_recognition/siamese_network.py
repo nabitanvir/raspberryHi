@@ -23,6 +23,9 @@ def siamese_network(inputShape, embeddingDim=48):
 
     return model
 
+def train_siamese_network():
+    print("[INFO] Loading face dataset...")
+
 def main():
     siamese_network(config.IMG_SHAPE, config.EMBEDDING_SIZE)
 

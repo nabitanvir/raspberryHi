@@ -7,9 +7,10 @@ EMBEDDING_SIZE = 64
 BATCH_SIZE = 64
 EPOCHS = 100
 
-BASE_PATH = 'berry/models/'
-MODEL_OUTPUT = os.path.join(BASE_PATH, 'siamese_model')
-PLOT_OUTPUT = os.path.join(BASE_PATH, 'training_graph.png')
+MODEL_SAVE_PATH = 'berry/models/'
+PLOT_SAVE_PATH = 'berry/plots/'
+MODEL_OUTPUT = os.path.join(MODEL_SAVE_PATH, 'siamese_model')
+PLOT_OUTPUT = os.path.join(PLOT_SAVE_PATH, 'training_graph.png')
 
 # utils.py
 DATASET_PATH = 'berry/face_recognition/dataset'
