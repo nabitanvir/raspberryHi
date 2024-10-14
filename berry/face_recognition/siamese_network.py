@@ -24,5 +24,6 @@ def siamese_network(inputShape, embeddingDim=48):
 
 def main():
     siamese_network(siamese_config.IMG_SHAPE, siamese_config.EMBEDDING_SIZE)
-    
+    siamese_model.summary()
+
     
