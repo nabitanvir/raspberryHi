@@ -1,4 +1,5 @@
-# berryMain.py
+import config
+import utils
 
 import os
 import numpy as np
@@ -6,13 +7,6 @@ import librosa
 import sounddevice as sd
 import tensorflow as tf
 from tensorflow.keras import models, layers
-
-# Constants
-SAMPLE_RATE = 16000  # 16 kHz
-DURATION = 1         # 1 second
-NUM_SAMPLES = SAMPLE_RATE * DURATION
-MODEL_PATH = 'models/wake_word_model.h5'
-THRESHOLD = 0.5      # Adjust based on model performance
 
 # Preprocess audio to match training
 def preprocess_audio(audio):
