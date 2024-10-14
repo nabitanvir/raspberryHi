@@ -1,0 +1,4 @@
+The following documentation gives a comprehensive guide on how to build this project on your own.
+This project has been designed to be as modular and adaptable as possible to your use case. I have included flags for each training program as well as extensively commented sections of importance in each training script.
+
+There are two main things you will need to consider before starting this project:

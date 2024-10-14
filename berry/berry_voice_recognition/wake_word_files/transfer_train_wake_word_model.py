@@ -50,53 +50,15 @@ def load_wake_word_data(positive_dir, negative_dir):
 
     return X.numpy(), y.numpy()
 
-# i have no clue why im having a layer mismatch but i think this fixes it
-# note to self: i fixed the 1D tensor issue, now the model cant be accesses for some reason, this code
-# helps for some reason?
-class YamnetEmbeddingLayer(tf.keras.layers.Layer):
-    def __init__(self, yamnet_model_handle='https://tfhub.dev/google/yamnet/1', **kwargs):
-        super(YamnetEmbeddingLayer, self).__init__(**kwargs)
-        self.yamnet_model_handle = yamnet_model_handle
-        self.yamnet_model = None
-
-    def build(self, input_shape):
-        self.yamnet_model = hub.load(self.yamnet_model_handle)
-        super(YamnetEmbeddingLayer, self).build(input_shape)
-
-    def call(self, inputs):
-        def extract_embeddings(waveform):
-            _, embeddings, _ = self.yamnet_model(waveform)
-            return tf.reduce_mean(embeddings, axis=0)
-        
-        embeddings = tf.map_fn(
-                lambda x: extract_embeddings(x),
-                inputs,
-                fn_output_signature=tf.float32
-        )
-        return embeddings
-
-    def get_config(self):
-        config = super(YamnetEmbeddingLayer, self).get_config()
-        config.update({
-            'yamnet_model_handle': self.yamnet_model_handle,
-        })
-        return config
-
-    @classmethod
-    def from_config(cls, config):
-        return cls(**config)
-
 # We import YAMnet and add our own layers
 def create_wake_word_model():
-    #yamnet_model = hub.load('https://tfhub.dev/google/yamnet/1')
+    yamnet_model = hub.load('https://tfhub.dev/google/yamnet/1')
     input_waveform = tf.keras.Input(shape=(NUM_SAMPLES,), dtype=tf.float32)
 
-    embeddings = YamnetEmbeddingLayer()(input_waveform)
-
     # YAMnet import dimsdd: [batch size, num samples], so we expand dims
-    #embeddings = yamnet_model(tf.expand_dims(input_waveform, axis=0))
-    #embeddings = embeddings['embedding']
-    #embeddings = tf.reduce_mean(embeddings, axis=0)
+    embeddings = yamnet_model(tf.expand_dims(input_waveform, axis=0))
+    embeddings = embeddings['embedding']
+    embeddings = tf.reduce_mean(embeddings, axis=0)
 
     x = tf.keras.layers.Dense(128, activation='relu')(embeddings)
     x = tf.keras.layers.Dropout(0.3)(x)

@@ -2,7 +2,7 @@
 
 import os
 import random
-import librosa
+import librosas
 import numpy as np
 import soundfile as sf
 from tqdm import tqdm

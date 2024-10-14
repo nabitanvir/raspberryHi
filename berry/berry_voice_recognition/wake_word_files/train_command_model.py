@@ -4,7 +4,7 @@ import librosa
 import tensorflow as tf
 from tensorflow.keras import layers, models
 
-COMMANDS = ['lights_on', 'lights_off', 'status', 'eee']
+COMMANDS = ['lights_on', 'lights_off', 'status']
 DATA_DIR = 'datasets/commands'
 MODEL_PATH = 'models/command_model.h5'
 
@@ -48,7 +48,7 @@ def main():
     num_commands = len(COMMANDS)
     model = create_command_model(input_shape, num_commands)
     model.fit(X_train, y_train, epochs=15, batch_size=16, validation_split=0.2)
-    model.save(MODEL_SAVE_PATH)
+    model.save(MODEL_PATH)
     print("model completed, saved!")
 
 if __name__ == "__main__":
