@@ -1,10 +1,8 @@
 # This file will allow you to record your own voice in terminal and automatically save it in the positive/negative wake word directories
 # I hardcoded my microphone ID in the code as "device=5", you can find your own microphone ID using "sd.query_devices()" in a python terminal
-
+import os, time
 import sounddevice as sd
 import numpy as np
-import os
-import time
 from scipy.io.wavfile import write
 
 SAMPLE_RATE = 16000

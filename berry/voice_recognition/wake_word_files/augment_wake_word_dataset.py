@@ -1,11 +1,8 @@
 # After collecting a significant amount of wake word data, use this function to augment your files in order to introduce a more robust dataset.
 
-import os
-import random
-import librosas
+import os, random, librosa, tqdm
 import numpy as np
 import soundfile as sf
-from tqdm import tqdm
 
 POSITIVE_DIR = '/usr/src/app/berry/berry_voice_recognition/datasets/wake_word/positive'
 NEGATIVE_DIR = '/usr/src/app/berry/berry_voice_recognition/datasets/wake_word/negative'

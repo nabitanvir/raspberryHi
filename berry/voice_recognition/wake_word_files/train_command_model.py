@@ -1,6 +1,5 @@
-import os
+import os, librosa
 import numpy as np
-import librosa
 import tensorflow as tf
 from tensorflow.keras import layers, models
 

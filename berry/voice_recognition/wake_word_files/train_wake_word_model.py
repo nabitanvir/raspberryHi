@@ -1,8 +1,7 @@
 # My NN architecture for training the wake word model, I use a CNN model with 2D MFCC inputs
 
-import os
+import os, librosa
 import numpy as np
-import librosa
 import tensorflow as tf
 from tensorflow.keras import layers, models
 from tensorflow.keras.optimizers import Adam
