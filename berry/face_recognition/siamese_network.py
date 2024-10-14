@@ -1,6 +1,6 @@
 # siamese network approach
 
-import siamese_config
+import berry.face_recognition.config as config
 import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Conv2D, Dense, Dropout, GlobalAveragePooling2D, MaxPool2D
@@ -20,10 +20,10 @@ def siamese_network(inputShape, embeddingDim=48):
     outputs = Dense(embeddingDim)(pooledOutput)
 
     model = Model(inputs, outputs)
+
     return model
 
 def main():
-    siamese_network(siamese_config.IMG_SHAPE, siamese_config.EMBEDDING_SIZE)
-    siamese_model.summary()
+    siamese_network(config.IMG_SHAPE, config.EMBEDDING_SIZE)
 
     
