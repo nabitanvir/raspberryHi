@@ -1,14 +1,11 @@
 # My NN architecture for training the wake word model, I use a CNN model with 2D MFCC inputs
+import config, utils
 
 import os, librosa
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers, models
 from tensorflow.keras.optimizers import Adam
-
-POSITIVE_DIR = 'datasets/wake_word/positive'
-NEGATIVE_DIR = 'datasets/wake_word/negative'
-MODEL_PATH = 'models/wake_word_model.h5'
 
 # This function preprocesses our audio data for training by converting all our training data into MFCCs of size 32x32x1, which is
 # the equivalent of a grayscale image (hence the 1 in the channels dimension)
@@ -71,9 +68,9 @@ def create_wake_word_model(input_shape):
 
 # Main function that trains the model
 def main():
-    print("Loading wake word data")
-    X, y = load_wake_word_data(POSITIVE_DIR, NEGATIVE_DIR)
-    print("Data loaded, training model!")
+    print("[INFO] Loading wake word data...")
+    X, y = load_wake_word_data(config.POSITIVE_DIRECTORY, config.NEGATIVE_DIRECTORY)
+    print("[INFO] Data loaded, training model...")
 
     indices = np.arange(len(X))
     np.random.shuffle(indices)
@@ -91,8 +88,8 @@ def main():
     model = create_wake_word_model(input_shape)
     model.summary()
     model.fit(X_train, y_train, epochs=10, batch_size=16, validation_data=(X_val, y_val), verbose=1)
-    model.save(MODEL_PATH)
-    print(f"Wake word model saved at {MODEL_PATH}")
+    model.save(config.MODEL_SAVE_PATH)
+    print(f"[INFO] Wake word model saved at {config.MODEL_SAVE_PATH}")
 
 if __name__ == "__main__":
     main()

@@ -1,8 +1,10 @@
 # After collecting a significant amount of wake word data, use this function to augment your files in order to introduce a more robust dataset.
 import config
 import utils
-
-import os, random, librosa, tqdm
+import os
+import random
+import librosa
+import tqdm
 import numpy as np
 import soundfile as sf
 
@@ -23,8 +25,8 @@ def change_volume_aug(audio, gain=1.0):
     return audio * gain
 
 def main():
-    target = input('Augment positive or negative datasets? (p/n): ')
-    tag = 'unset'
+    target = input('[PROMPT] Augment positive or negative datasets? (p/n): ')
+    tag = None
     if target == 'p':
         target_directory = config.POSITIVE_DIRECTORY
         tag = 'positive'
@@ -32,17 +34,17 @@ def main():
         target_directory = config.NEGATIVE_DIRECTORY
         tag = 'negative'
     else:
-        print('No directory specified, terminating')
+        print('[ERROR] No directory specified, terminating')
         exit()
 
-    num_augmented_samples = int(input('how many augmented samples: '))
+    num_augmented_samples = int(input('[PROMPT] how many augmented samples: '))
     if not num_augmented_samples:
-        print('No number provided, terminating')
+        print('[ERROR] No number provided, terminating')
 
-    print('Beginning augmentation!\n')
+    print('[INFO] Beginning augmentation\n')
     if not os.path.exists(target_directory):
         os.makedirs(target_directory)
-        print(f'created output directory: {target_directory}')
+        print(f'[INFO] {target_directory} not found, created output directory: {target_directory}')
 
     target_files = []
     for f in os.listdir(target_directory):
@@ -95,7 +97,7 @@ def main():
             if augmented_count >= num_augmented_samples:
                 break
 
-        print(f"Generated {augmented_count} augmented {tag} samples, terminating")
+        print(f"[SUCCESS] Generated {augmented_count} augmented {tag} samples, terminating")
 
 if __name__ == "__main__":
     main()

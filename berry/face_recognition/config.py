@@ -10,7 +10,7 @@ EPOCHS = 100
 MODEL_SAVE_PATH = 'berry/models/'
 PLOT_SAVE_PATH = 'berry/plots/'
 MODEL_OUTPUT = os.path.join(MODEL_SAVE_PATH, 'siamese_model')
-PLOT_OUTPUT = os.path.join(PLOT_SAVE_PATH, 'training_graph.png')
+PLOT_OUTPUT = os.path.join(PLOT_SAVE_PATH, 'siamese_training_graph.png')
 
 # utils.py
 DATASET_PATH = 'berry/face_recognition/dataset'
