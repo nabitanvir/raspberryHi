@@ -10,7 +10,8 @@ Many current smarthome systems require purchasing various products in order to b
 
 ## To Do:
 - [X] Implement trigger word recognition using gray-scaled MFCC and a CNN
-- [ ] Implement facial recognition using a Siamese network
+- [X] Implement facial recognition using a Siamese neural network
+- [ ] Create dataset for training SNN
 - [ ] Write face detection code using pretrained models and face alignment (MTCNN)
 - [X] Integrate control of my smart home lighting using Philips Hue REST API.
 - [X] Create dataset of positive/negative examples of trigger word "Berry"
@@ -19,7 +20,7 @@ Many current smarthome systems require purchasing various products in order to b
 - [ ] Write code for transfer learning using Google Speech Embeddings for command recognition
 - [ ] Train to recognize commands "Lights On", "Lights Off", "Status"
 - [X] Write data augmentation code for voice recognition dataset(s)
-- [ ] Chain all models together!
+- [ ] Chain all models together
 
 ## Secondary Tasks:
 - [ ] Build a home for Berry
