@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from PIL import Image
+import tensorflow as tf
 
 def euclidean_distance(vector1, vector2):
     """
@@ -94,14 +95,29 @@ def preprocess_images(image_path, image_shape):
     image = np.array(image) / 255.0
     return image
 
+def contrastive_loss(y_true, y_pred):
+    """
+    Contrastive loss function.
+
+    Parameters:
+    y_true (tensor): True labels (1 for similar, 0 for dissimilar).
+    y_pred (tensor): Predicted distances between embeddings.
+
+    Returns:
+    tensor: Loss value.
+    """
+    margin = 1.0
+    loss = y_true * tf.square(y_pred) + \
+           (1 - y_true) * tf.square(tf.maximum(margin - y_pred, 0))
+    return tf.reduce_mean(loss)
+
 def plot_training(training_history, path):
     """
     Creates a visual graph to see how loss function is performing
     
     Parameters:
     training_history ():
-    path (str): The path where we save the plot
-    
+    path (str): The directory where we save the plot
     """
     plt.style.use("ggplot")
     plt.figure()
