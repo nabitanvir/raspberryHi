@@ -1,43 +1,108 @@
 import config
 import itertools
+import random
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+from PIL import Image
 
 def euclidean_distance(vector1, vector2):
+    """
+    Calculates the euclidean distance between two embedding vectors
+    
+    Parameters:
+    vector1 ()
+    vector2 ()
+    
+    Returns:
+    float: 
+    """
     distance = np.sqrt(np.sum((np.array(vector1), np.array(vector2))**2))
     return distance
 
-def create_pairs(dataset, pairs=10):
-    positive_pairs = []
-    for img1, img2 in itertools.combinations(config.POSITIVE_DATASET_PATH, 2):
-        pair = (img1, img2, 1)
-        positive_pairs.append(pair)
-    seen_pairs = {}
-    unique_positive_pairs = []
-    for img1, img2, label in positive_pairs:
-        pair_id = tuple(sorted([id(img1), id(img2)]))
-        if pair_id not in seen_pairs:
-            seen_pairs.add(pair_id)
-            unique_positive_pairs.append((img1, img2, label))
-    positive_pairs = unique_positive_pairs
+def create_pairs(positive_dataset_path, negative_dataset_path):
+    """
+    Creates a dataset for a SNN by generating positive and negative pairs, shuffling them, and
+    combining them into a single dataset.
+
+    Parameters:
+    positive_dataset_path (str): The filepath to the directory containing positive images
+    negative_dataset_path (str): The filepath to the directory containing negative images
+
+    Returns:
+    list: A shuffled list of tuples, where each tuple contains two image identifiers and a label
+    """
+
+    positive_image_paths = get_image_paths(positive_dataset_path)
+    negative_image_paths = get_image_paths(negative_dataset_path)
+
+    positive_pairs = set()
+    for img1, img2 in itertools.combinations(positive_image_paths, 2):
+        pair = sorted([img1, img2])
+        positive_pairs.add((pair[0], pair[1], 1))
         
-    negative_pairs = []
-    for img1 in config.POSITIVE_DATASET_PATH:
-        for img2 in config.NEGATIVE_DATASET_PATH:
-            pair = (img1, img2, 0)
-            negative_pairs.append(pair)
-    seen_pairs = {}
-    unique_negative_pairs = []
-    for img1, img2, label in negative_pairs:
-        pair_id = tuple(sorted([id(img1), id(img2)]))
-        if pair_id not in seen_pairs:
-            seen_pairs.add(pair_id)
-            unique_negative_pairs.append((img1, img2, label))
-    negative_pairs = unique_negative_pairs
-            
-    return positive_pairs, negative_pairs
+    negative_pairs = set()
+    for img1 in positive_image_paths:
+        for img2 in negative_image_paths:
+            pair = sorted([img1, img2])
+            negative_pairs.add((pair[0], pair[1], 0))
+    
+    dataset = list(positive_pairs.union(negative_pairs))
+    random.shuffle(dataset)
+    
+    processed_dataset = []
+    for image1, image2, label in dataset:
+        processed_image1 = preprocess_images(image1, config.IMG_SHAPE)
+        processed_image2 = preprocess_images(image2, config.IMG_SHAPE)
+        processed_dataset.append((processed_image1, processed_image2, label))
+    
+    return processed_dataset
+
+def get_image_paths(dataset_path):
+    """
+    Helper function for create_pairs function, creates list of all images in the directory
+    
+    Parameters:
+    dataset_path (str): The path to the directory with the desired images
+    
+    Returns:
+    list: list of all images inside the directory
+    """
+    image_paths = []
+    files = os.listdir(dataset_path)
+    for f in files:
+        full_path = os.path.join(dataset_path, f)
+        if os.path.isfile(full_path):
+            image_paths.append(full_path)
+    return image_paths
+
+def preprocess_images(image_path, image_shape):
+    """
+    Helper function for create_pairs function, resizes image to image size specified in config.py
+    
+    Parameters:
+    image_path (str): Path to the image file.
+    img_shape (tuple): Desired image dimensions (height, width, channels)
+    
+    Returns:
+    numpy.ndarray: Preprocessed image array
+    """
+    dimensions = (image_shape[1], image_shape[0])
+    
+    image = Image.open(image_path).convert('RGB')
+    image = image.resize(dimensions)
+    image = np.array(image) / 255.0
+    return image
 
 def plot_training(training_history, path):
+    """
+    Creates a visual graph to see how loss function is performing
+    
+    Parameters:
+    training_history ():
+    path (str): The path where we save the plot
+    
+    """
     plt.style.use("ggplot")
     plt.figure()
     plt.plot(training_history.history["loss"], label="train_loss")
