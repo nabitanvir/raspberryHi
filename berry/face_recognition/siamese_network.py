@@ -1,4 +1,6 @@
-import berry.face_recognition.config as config
+import config
+import utils
+
 import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Conv2D, Dense, Dropout, GlobalAveragePooling2D, MaxPool2D
@@ -22,9 +24,12 @@ def build_siamese_network(inputShape, embeddingDim=48):
     return model
 
 def train_siamese_network():
-    print("[INFO] Loading face dataset...")
+    print("[INFO] Creating siamese neural network")
+    build_siamese_network(config.IMG_SHAPE, config.EMBEDDING_SIZE)
+    print("[INFO] Created siamese neural network!")
 
-def main():
-    siamese_network(config.IMG_SHAPE, config.EMBEDDING_SIZE)
-
+    print("[INFO] Generating dataset for training")
+    dataset = utils.create_pairs(config.POSITIVE_DATASET_PATH, config.NEGATIVE_DATASET_PATH)
+    print("[INFO] Created dataset!")
+    
     
