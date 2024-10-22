@@ -13,5 +13,6 @@ MODEL_OUTPUT = os.path.join(MODEL_SAVE_PATH, 'siamese_model')
 PLOT_OUTPUT = os.path.join(PLOT_SAVE_PATH, 'siamese_training_graph.png')
 
 # utils.py
-DATASET_PATH = 'berry/face_recognition/dataset'
+POSITIVE_DATASET_PATH = 'berry/face_recognition/dataset/positive'
+NEGATIVE_DATASET_PATH = 'berry/face_recognition/dataset/negative'
 PAIRS_PER_PERSON = 30
