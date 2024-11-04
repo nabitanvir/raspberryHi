@@ -4,9 +4,9 @@ A smarthome hub-esque device that uses facial and audio recognition models to em
 
 Many current smarthome systems require purchasing various products in order to build a fully functional smart home ecosystem. This means (on top of being expensive) many devices may not function without a supplementary device that solves the dependencies of these ecosystems. RaspberryHi!, or "Berry" for short, looks to act as an open source solution by allowing you to integrate various smart home applicances through public APIs or directly connecting to the devices.
 
-## Hardware used:
+## Specifications:
 - Raspberry Pi 5 with 8GB of RAM and 128 GB of storage
-- Ubuntu 24.10 OS
+- Ubuntu 24.10
 
 ## To Do:
 - [X] Implement trigger word recognition using gray-scaled MFCC and a CNN
