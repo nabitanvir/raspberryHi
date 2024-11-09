@@ -1,14 +1,20 @@
-import os, librosa
+import os
+
+import librosa
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers, models
 
-COMMANDS = ['lights_on', 'lights_off', 'status']
-DATA_DIR = 'datasets/commands'
-MODEL_PATH = 'models/command_model.h5'
+import config
 
-# We preprocess data into MFCCs of dimensions 32x32x1, which is the equivalent of a grayscale image
 def load_command_data(commands, data_dir):
+    """
+    We preprocess data into MFCCs of dimensions 32x32x1, which is the equivalent of a grayscale image
+    
+    Parameters:
+    
+    Returns:
+    """
     X = []
     y = []
     for idx, command in enumerate(commands):
@@ -25,8 +31,12 @@ def load_command_data(commands, data_dir):
     y = np.array(y)
     return X, y
 
-# Create the model, this specific NN architecture was used to make for a lightweight model that can easily run on a raspberry pi
 def create_command_model(input_shape, num_commands):
+    """
+    Create the model, this specific NN architecture was used to make for a lightweight model 
+    that can easily run on a raspberry pi
+    
+    """
     model = models.sequential([
         layers.Conv2D(16, (3, 3), activation='relu', input_shape=input_shape),
         layers.MaxPooling2D((2, 2)),
@@ -41,13 +51,13 @@ def create_command_model(input_shape, num_commands):
 
 def main():
     print("loading command data")
-    X_train, y_train = load_command_data(COMMANDS, DATA_DIR)
+    X_train, y_train = load_command_data(config.VOICE_COMMANDS, DATA_DIR)
     print("data loaded, training model!")
     input_shape = (32, 32, 1)
-    num_commands = len(COMMANDS)
+    num_commands = len(config.VOICE_COMMANDS)
     model = create_command_model(input_shape, num_commands)
     model.fit(X_train, y_train, epochs=15, batch_size=16, validation_split=0.2)
-    model.save(MODEL_PATH)
+    model.save(config.MODEL_SAVE_PATH)
     print("model completed, saved!")
 
 if __name__ == "__main__":

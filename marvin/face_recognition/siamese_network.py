@@ -25,7 +25,6 @@ def build_siamese_network(inputShape, embeddingDim=48):
     return model
 
 def create_siamese_network():
-    print("[INFO] Creating siamese neural network")
     base_network = build_siamese_network(config.IMG_SHAPE, config.EMBEDDING_SIZE)
     
     input_a = Input(shape=config.IMG_SHAPE)
@@ -66,7 +65,7 @@ def train_siamese_network():
     model.fit([image1_array, image2_array], labels_array,
               batch_size=config.BATCH_SIZE,
               epochs=config.EPOCHS)
-    print("[INFO] Training completed!")
+    print("[INFO] Training completed.")
 
     model.save(config.MODEL_OUTPUT)
     print(f"[SUCCESS] Model saved to {config.MODEL_OUTPUT}")

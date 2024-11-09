@@ -1,4 +1,5 @@
 import config
+
 import itertools
 import random
 import numpy as np
@@ -12,11 +13,11 @@ def euclidean_distance(vector1, vector2):
     Calculates the euclidean distance between two embedding vectors
     
     Parameters:
-    vector1 ()
-    vector2 ()
+    vector1 (vector): The first vector
+    vector2 (vector): The second vector
     
     Returns:
-    float: 
+    float: The Euclidean distance between vector1 and vector2
     """
     distance = np.sqrt(np.sum((np.array(vector1), np.array(vector2))**2))
     return distance
@@ -107,8 +108,7 @@ def contrastive_loss(y_true, y_pred):
     tensor: Loss value.
     """
     margin = 1.0
-    loss = y_true * tf.square(y_pred) + \
-           (1 - y_true) * tf.square(tf.maximum(margin - y_pred, 0))
+    loss = y_true * tf.square(y_pred) + (1 - y_true) * tf.square(tf.maximum(margin - y_pred, 0))
     return tf.reduce_mean(loss)
 
 def plot_training(training_history, path):

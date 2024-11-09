@@ -1,6 +1,6 @@
-# After collecting a significant amount of wake word data, use this function to augment your files in order to introduce a more robust dataset.
 import config
 import utils
+
 import os
 import random
 import librosa
